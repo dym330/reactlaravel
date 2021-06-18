@@ -11,7 +11,7 @@ function Example() {
                         <div className="card-header">Example Component</div>
 
                         <div className="card-body">pages?</div>
-                        <Button color="primary" variant="contained">Home</Button>
+                        <Button color="primary" variant="contained" htef={`/`}>Home</Button>
                     </div>
                 </div>
             </div>
