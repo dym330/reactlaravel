@@ -49,6 +49,16 @@ function Home() {
         });
     }
 
+    let rows = [];
+    posts.map((post) => {
+        rows.push({
+            name: post.name,
+            content: post.content,
+            editBtn: <Button color="secondary" variant="contained">編集</Button>,
+            deleteBtn: <Button color="primary" variant="contained">完了</Button>,
+        });
+    });
+
     return (
         <div className="container">
             <div className="row justify-content-center">
