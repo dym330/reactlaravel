@@ -4,6 +4,7 @@ import { Button, Card } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import MainTable from '../components/MainTable';
 import axios from 'axios';
+import PostForm from '../components/PostForm'
 
 const useStyles = makeStyles((theme) => createStyles({
     card: {
@@ -32,6 +33,10 @@ let rows = [
 function Home() {
     const classes = useStyles();
     const [posts, setPosts] = useState([]);
+    const [formData, setFormData] = useState({
+        name: '',
+        content: ''
+    });
 
     useEffect(() => {
         getPostsData();
@@ -47,6 +52,35 @@ function Home() {
         .catch(() => {
             console.log('通信に失敗しました');
         });
+    }
+
+    const createPost = async() => {
+        if (formData == '') {
+            return;
+        }
+
+        await axios
+            .post('/api/post/create', {
+                name: formData.name,
+                content: formData.content
+            })
+            .then((res) => {
+                const tempPost = posts
+                tempPost.push(res.data);
+                setPosts(tempPost);
+                setFormData('');
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    const inputChange = (e) => {
+        const key = e.target.name;
+        const value = e.target.value;
+        formData[key] = value;
+        let data = Object.assign({}, formData);
+        setFormData(data);
     }
 
     let rows = [];
@@ -65,6 +99,9 @@ function Home() {
                 <div className="col-md-10">
                     <div className="card">
                         <h1>タスク管理</h1>
+                        <Card className={classes.card}>
+                            <PostForm data={formData} btnFunc={createPost} inputChange={inputChange}/>
+                        </Card>
                         <Card className={classes.card}>
                             {/* テーブル部分の定義 */}
                             <MainTable headerList={headerList} rows={rows} />
