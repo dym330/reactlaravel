@@ -16,20 +16,6 @@ const useStyles = makeStyles((theme) => createStyles({
 //ヘッダーのコンテンツ用の配列定義
 const headerList = ['名前', 'タスク内容', '編集', '完了'];
 
-let rows = [
-    {
-        name: "モーリー",
-        content: "肩トレ",
-        editBtn: <Button color="secondary" variant="contained">編集</Button>,
-        deleteBtn: <Button color="primary" variant="contained">完了</Button>,
-    },{
-        name: "ドンキーコング",
-        content: "バナナ補給",
-        editBtn: <Button color="secondary" variant="contained">編集</Button>,
-        deleteBtn: <Button color="primary" variant="contained">完了</Button>,
-    },
-];
-
 function Home() {
     const classes = useStyles();
     const [posts, setPosts] = useState([]);
@@ -55,7 +41,7 @@ function Home() {
     }
 
     const createPost = async() => {
-        if (formData == '') {
+        if (formData.name == '' || formData.content == '') {
             return;
         }
 
@@ -88,7 +74,7 @@ function Home() {
         rows.push({
             name: post.name,
             content: post.content,
-            editBtn: <Button color="secondary" variant="contained">編集</Button>,
+            editBtn: <Button color="secondary" variant="contained" key={post.id} href={`/post/edit/${post.id}`}>編集</Button>,
             deleteBtn: <Button color="primary" variant="contained">完了</Button>,
         });
     });
