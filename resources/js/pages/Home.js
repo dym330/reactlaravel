@@ -61,6 +61,21 @@ function Home() {
             });
     }
 
+    const deletePost = async (post) => {
+        await axios
+            .post('/api/delete', {
+                id: post.id
+            })
+            .then((res) => {
+                this.setState({
+                    posts: res.posts
+                });
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    }
+
     const inputChange = (e) => {
         const key = e.target.name;
         const value = e.target.value;
@@ -75,7 +90,7 @@ function Home() {
             name: post.name,
             content: post.content,
             editBtn: <Button color="secondary" variant="contained" key={post.id} href={`/post/edit/${post.id}`}>編集</Button>,
-            deleteBtn: <Button color="primary" variant="contained">完了</Button>,
+            deleteBtn: <Button color="primary" variant="contained" href="/" onClick={() => deletePost(post)}>完了</Button>,
         });
     });
 
